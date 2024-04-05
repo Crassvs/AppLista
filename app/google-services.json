@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946602209196",
+    "project_id": "lista-app-cd3b6",
+    "storage_bucket": "lista-app-cd3b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946602209196:android:c26d83ee2f1f1494c95409",
+        "android_client_info": {
+          "package_name": "com.crassvs.applista"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqwlHXBPZ50Dy1_Ilz5Da3XWR8YTpJVGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
