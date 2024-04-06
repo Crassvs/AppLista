@@ -1,6 +1,10 @@
 package com.crassvs.applista.screens.login
 
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
@@ -35,9 +41,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.crassvs.applista.R
 import com.crassvs.applista.navigation.ListaScreens
 import com.crassvs.pruebaapp.screens.login.LoginScreenViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthCredential
+import com.google.firebase.auth.GoogleAuthProvider
+import org.w3c.dom.Text
 
 @Composable
 fun LoginScreen(
@@ -46,6 +64,24 @@ fun LoginScreen(
 ){
     val showLoginForm = rememberSaveable {
         mutableStateOf(true)
+    }
+    val token = "614544232330-irvtisj4slfl23o424jp7ki4nfpc2tvh.apps.googleusercontent.com"
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts
+                .StartActivityForResult()
+    ) {
+       val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                viewModel.signWithGoogleCredential(credential){
+                    navController.navigate(ListaScreens.HomeScreen.name)
+                }
+            }catch(ex:Exception){
+                Log.d("ListaApp","Autorización con Google Falló")
+
+            }
     }
     Surface(modifier = Modifier
         .fillMaxSize()
@@ -95,7 +131,37 @@ fun LoginScreen(
                     modifier = Modifier
                         .clickable { showLoginForm.value = !showLoginForm.value }
                         .padding(5.dp),
-                    color = MaterialTheme.colorScheme.secondary)
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable {
+                        val opciones = GoogleSignInOptions.Builder(
+                            GoogleSignInOptions.DEFAULT_SIGN_IN
+                        )
+                        .requestIdToken(token)
+                            .requestEmail()
+                            .build()
+                        val googleSignInClient = GoogleSignIn.getClient(context,opciones)
+                        launcher.launch(googleSignInClient.signInIntent)
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.ic_google) ,
+                    contentDescription = "Login con Google" ,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(40.dp)
+                )
+                Text(
+                    text = "Login con Google"
+                )
             }
         }
     }

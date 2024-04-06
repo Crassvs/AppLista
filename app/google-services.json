@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "946602209196",
-    "project_id": "lista-app-cd3b6",
-    "storage_bucket": "lista-app-cd3b6.appspot.com"
+    "project_number": "614544232330",
+    "project_id": "lista-app-2",
+    "storage_bucket": "lista-app-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:946602209196:android:c26d83ee2f1f1494c95409",
+        "mobilesdk_app_id": "1:614544232330:android:3808e298770c0e03c44273",
         "android_client_info": {
           "package_name": "com.crassvs.applista"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "614544232330-784uqkqmsv05u0elbe2ueoljlt5t2np7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crassvs.applista",
+            "certificate_hash": "75840c17d6561fce4107aeb8b461de9248325844"
+          }
+        },
+        {
+          "client_id": "614544232330-irvtisj4slfl23o424jp7ki4nfpc2tvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqwlHXBPZ50Dy1_Ilz5Da3XWR8YTpJVGM"
+          "current_key": "AIzaSyA4bazAnsNTvWVNSW8tpLBwNXNEMlfQfvg"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614544232330-irvtisj4slfl23o424jp7ki4nfpc2tvh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

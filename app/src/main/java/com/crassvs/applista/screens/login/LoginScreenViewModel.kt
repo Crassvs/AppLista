@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.crassvs.applista.model.User
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,25 @@ class LoginScreenViewModel: ViewModel() {
 
     private val auth : FirebaseAuth =  Firebase.auth
     private val _loading = MutableLiveData(false)
+
+    fun signWithGoogleCredential(credential: AuthCredential, home: () -> Unit)
+        = viewModelScope.launch{
+            try {
+                auth.signInWithCredential(credential)
+                    .addOnCompleteListener(){ task ->
+                        if (task.isSuccessful){
+                            Log.d("ListaApp","Autorización exitósa Weon")
+                            home()
+                        }
+                    }
+                    .addOnFailureListener(){
+                        Log.d("ListaApp","Autorización Falló Weon, Revisa que salió mal con Google")
+                    }
+            }catch (ex:Exception){
+                Log.d("ListaApp","Falló Weon, Revisa que salió mal con Google" +
+                                "${ex.localizedMessage}")
+            }
+    }
 
     fun signWithEmailAndPassword (email:String, password:String, home: ()-> Unit)
         = viewModelScope.launch {
